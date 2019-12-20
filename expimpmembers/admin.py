@@ -1,27 +1,10 @@
 from django.contrib import admin
 from .models import *
 from import_export import resources
+from .resourses import *
 from import_export.admin import ImportExportModelAdmin, ImportExportActionModelAdmin
-from import_export.fields import Field
 
 
-class MemberResource(resources.ModelResource):
-    last_name = Field(attribute='last_name', column_name='Прізвіще')
-    first_name = Field(attribute='first_name', column_name="імя")
-    middle_name = Field(attribute='middle_name', column_name='По батькові')
-    year = Field(attribute='year', column_name='Рік навчання')
-    academic_group_of_student = Field(attribute='academic_group_of_student', column_name='Академічна група')
-    id_number = Field(attribute='id_number', column_name='Номер студентського квитка')
-
-    class Meta:
-        model = Member
-        import_id_fields = ('last_name',)
-        fields = ('last_name',
-                  'first_name', 'middle_name',
-                  'year', 'academic_group_of_student',
-                  'id_number', )
-    
-        
 class MemberAdmin(ImportExportModelAdmin):
     list_display = ('last_name',
                     'first_name', 'middle_name',
@@ -33,6 +16,17 @@ class MemberAdmin(ImportExportModelAdmin):
     resource_class = MemberResource
 
 
-admin.site.register(Member, MemberAdmin)
-admin.site.register(AcademicGroup)
+class AcademicGroupAdmin(ImportExportModelAdmin):
+    list_display = ('academic_group_code', 'academic_group_faculty', )
+    list_filter = ('academic_group_faculty', )
+    resource_class = AcademicGroupResourse
 
+ 
+class FacultyAdmin(admin.ModelAdmin):
+    list_filter = ('name', )
+
+
+
+admin.site.register(Member, MemberAdmin)
+admin.site.register(AcademicGroup, AcademicGroupAdmin)
+admin.site.register(Faculty, FacultyAdmin)
