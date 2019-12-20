@@ -13,8 +13,8 @@ class Faculty(models.Model):
 
     
 class AcademicGroup(models.Model):
-    academic_group_code = models.CharField(max_length=25, unique=True, verbose_name='Шифр навчальної групи', null=True)
-    academic_group_faculty = models.ForeignKey('Faculty', models.CASCADE, verbose_name='Факультет')
+    academic_group_code = models.CharField(primary_key=True, max_length=50, verbose_name='Шифр навчальної групи')
+    academic_group_faculty = models.ForeignKey('Faculty', models.DO_NOTHING, verbose_name='Факультет', null=True)
 
     def __str__(self):
         return self.academic_group_code
@@ -27,9 +27,9 @@ class Member(models.Model):
     first_name = models.CharField("ім'я", max_length=50, default='')
     middle_name = models.CharField('По батькові', max_length=50, default='', null=True)
     year = models.PositiveSmallIntegerField('Рік навчання', validators=[MinValueValidator(1), MaxValueValidator(6)], default=1)
-    #academic_group = models.OneToManyField('AcademicGroup', null=True, verbose_name='Академічна група')
-    academic_group = models.CharField('Академічна група', null=True, max_length=50)
-    id_number = models.CharField('Номер студентського квитка', max_length=50, null=True)
+    academic_group_of_student = models.ForeignKey('AcademicGroup', on_delete=models.DO_NOTHING, verbose_name='Академічна група')
+    id_number = models.CharField('Номер студентського квитка', max_length=50, primary_key=True, default='Невідомо')
 
     class Meta:
         db_table = "Студенти"
+

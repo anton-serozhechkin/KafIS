@@ -10,7 +10,7 @@ class MemberResource(resources.ModelResource):
     first_name = Field(attribute='first_name', column_name="імя")
     middle_name = Field(attribute='middle_name', column_name='По батькові')
     year = Field(attribute='year', column_name='Рік навчання')
-    academic_group = Field(attribute='academic_group', column_name='Академічна група')
+    academic_group_of_student = Field(attribute='academic_group_of_student', column_name='Академічна група')
     id_number = Field(attribute='id_number', column_name='Номер студентського квитка')
 
     class Meta:
@@ -18,14 +18,14 @@ class MemberResource(resources.ModelResource):
         import_id_fields = ('last_name',)
         fields = ('last_name',
                   'first_name', 'middle_name',
-                  'year', 'academic_group',
+                  'year', 'academic_group_of_student',
                   'id_number', )
     
         
 class MemberAdmin(ImportExportModelAdmin):
     list_display = ('last_name',
                     'first_name', 'middle_name',
-                    'year', 'academic_group', )
+                    'year', 'academic_group_of_student', )
     list_filter = ('year', )
     search_fields = ('first_name',
                      'middle_name',
@@ -34,6 +34,5 @@ class MemberAdmin(ImportExportModelAdmin):
 
 
 admin.site.register(Member, MemberAdmin)
-admin.site.register(Faculty)
 admin.site.register(AcademicGroup)
 
